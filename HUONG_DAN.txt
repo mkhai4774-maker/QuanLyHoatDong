@@ -1,0 +1,48 @@
+HƯỚNG DẪN CHẠY - QUẢN LÝ HOẠT ĐỘNG KHOA/TRƯỜNG
+(C# 14 / .NET 10 / Windows Forms / SQL Server + ADO.NET)
+
+CẤU HÌNH: Visual Studio 18.10.3, .NET SDK 10.0.401, net10.0-windows, C# 14.
+
+1) Tạo CSDL: mở Azure Data Studio hoặc SSMS, kết nối server MSI (Windows Authentication)
+   -> mở SQL\TaoDatabase.sql -> chạy (Run/F5). Chạy lại nhiều lần vẫn an toàn.
+2) Mở QuanLyHoatDong.slnx (hoặc QuanLyHoatDong.csproj) bằng Visual Studio.
+   Nếu từng build bản cũ: xóa thư mục bin, obj, .vs trước khi mở.
+3) Chuỗi kết nối nằm trong Database\Database.cs (đang là Server=MSI, Windows Authentication).
+4) Nhấn F5 (hoặc Ctrl+F5). Lần đầu NuGet tự tải thư viện (cần internet).
+
+TÀI KHOẢN
+- Admin: admin / Admin@123 (tự tạo khi chạy lần đầu; nên đổi ở mục Tài khoản).
+- Sinh viên: bấm "Đăng ký" ở màn hình đăng nhập (tên đăng nhập = mã sinh viên).
+
+NẾU CHƯƠNG TRÌNH KHÔNG HIỆN CỬA SỔ
+- Xem file loi.txt cạnh file .exe (bin\Debug\net10.0-windows\) hoặc %TEMP%\QuanLyHoatDong_loi.txt.
+
+KIỂM THỬ NHANH
+1. Đăng ký sinh viên SV001 -> đăng nhập -> Hoạt động -> HD02 -> Xem chi tiết -> Đăng ký tham gia (Chờ duyệt).
+2. Đăng xuất, đăng nhập admin -> Sinh viên: sửa SV001 điền Lớp/Khoa -> Đăng ký: Duyệt.
+   (HD02 chỉ có 3 chỉ tiêu: dùng để thử "hết chỉ tiêu".)
+3. Xác nhận tham gia: hoạt động phải đã diễn ra. Vào Hoạt động -> Sửa HD02 -> đặt Thời gian tổ chức về quá khứ
+   -> Lưu. Sau đó mục Xác nhận: chọn HD02, chọn Đã tham gia/Vắng mặt, Lưu.
+4. Thống kê: chọn nội dung + khoảng thời gian -> Thống kê -> Xuất Excel / Xuất PDF.
+
+QUY TẮC CHÍNH
+- Trạng thái đăng ký: Chờ duyệt -> Đã duyệt / Đã hủy. Chỉ tiêu = số đăng ký "Đã duyệt".
+- Không xóa hoạt động/sinh viên đã có đăng ký.
+- Không hủy đăng ký khi hoạt động đã diễn ra hoặc đã xác nhận tham gia.
+- Mật khẩu được băm PBKDF2 + salt, không lưu dạng văn bản.
+
+GIAO DIỆN CỔNG SINH VIÊN (bản thiết kế lại)
+- Khung: thanh trên (logo, tên cổng, avatar + MSSV + lớp), menu trái có biểu tượng, thanh tiêu đề/đường dẫn, chân trang.
+- Trang chủ (Forms/FrmTrangChuSV): lời chào, 4 ô thống kê đăng ký của chính sinh viên, hoạt động sắp diễn ra, hồ sơ rút gọn.
+- Hoạt động / Lịch sử đăng ký: bộ lọc dạng thẻ, bảng có màu trạng thái, đếm số kết quả.
+- Chi tiết hoạt động: banner, thông tin dạng thẻ, tự khóa nút Đăng ký và nêu lý do (đã đăng ký / hết hạn / hết chỉ tiêu).
+- Hồ sơ & tài khoản: thẻ hồ sơ (MSSV, lớp, khoa), sửa thông tin liên hệ, đổi mật khẩu.
+- Đăng nhập / Đăng ký: bố cục 2 cột.
+- Màu, nút, bảng dùng chung: Helpers/Theme.cs; các control tự vẽ: Helpers/Controls.cs.
+- Biểu tượng menu dùng font "Segoe MDL2 Assets" (có sẵn trên Windows 10/11).
+
+GIAO DIỆN CỔNG QUẢN TRỊ (đang thiết kế dần)
+- Đã xong: khung Admin (Forms/FrmAdmin: thanh trên, menu trái có biểu tượng, đường dẫn, chân trang)
+  và Trang chủ Admin (Forms/FrmTrangChuAdmin: 4 ô số liệu, đăng ký chờ duyệt, hoạt động sắp diễn ra).
+- Các trang Quản lý hoạt động / sinh viên / Duyệt đăng ký / Xác nhận tham gia / Thống kê hiện được
+  đồng bộ màu nút, bảng, tiêu đề qua Theme.QuanTri (bố cục sẽ được thiết kế lại ở các bước tiếp theo).
